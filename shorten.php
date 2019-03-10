@@ -15,8 +15,10 @@ if(isset($_POST['url'])){
     $url = $_POST['url'];
 
     if($code = $short->makeCode($url)){
-        echo $code;
+        $_SESSION['feedback'] = "Generated! Your short URL is: <a href='http://localhost:63342/phpchain/url_short/redirect.php?code={$code}'>http://localhost:63342/phpchain/url_short/{$code}</a>";
     }else{
-//        Problem
+        $_SESSION['feedback'] = "There was a problem. INVALID URL perhaps";
     }
 }
+
+header("Location: index.php");

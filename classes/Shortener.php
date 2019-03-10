@@ -13,7 +13,7 @@ class Shortener
     public function __construct()
     {
 //        For demo purposes database connection outside database handler/class
-        $this->db = new mysqli('localhost','root','1qaz@WSX3edc$RFV','url');
+        $this->db = new mysqli('localhost','root','','url');
     }
 //    Generates a code based on the database id number
     protected function generateCode($num){
@@ -56,6 +56,14 @@ class Shortener
 
 //    Passed in a  code to get url
     public function getUrl($code) {
+        $code = $this->db->escape_string($code);
+        $code = $this->db->query("SELECT url FROM urls WHERE code = '{$code}'");
+
+        if($code->num_rows){
+            return $code->fetch_object()->url;
+        }
+
+        return '';
 
     }
 
